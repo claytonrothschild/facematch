@@ -1,54 +1,15 @@
-# Hi
-Here's Facematch, a wrapper for the Facebook Face Recognition feature. I coded it super quickly to recognize my friends when they ring at the door. This is very simple at the moment and there's much to improve (almost no error handlers).
+# alexa-doorbell
+Ask Amazon Echo who is at the door.
 
-## How does it work?
-When you upload a picture on Facebook, the ```/photos/tagging/recognition``` endpoint is called. This program **uploads a private picture** (using Facebook API) + **calls the recognition endpoint** (by simulating a browser using the user's information).
+<h1>Usage:</h1>
+Request: "Alexa, ask doorbell who is at the door?"<br />
+Potential responses: <br />
+(Match found) "Your friend Nick is at the front door."<br />
+(No match) "A man wearing a red polo that says "HOA" is standing at your door with a clipboard."<br />
 
-# Requirements
-
-  - Facebook App ID / App Secret (register a new app here: https://developers.facebook.com/apps) 
-  - An active Facebook Account with friends (Facebook only recognizes your friends)
-
-
-# Getting Started
-##### I) Install
-
-```sh
-$ git clone https://github.com/louisondumont/facematch
-$ cd facematch
-$ npm install
-```
-
-##### II) Edit config.js
-**1) Insert** your App ID and Secret
-
-**2) Go to [Facebook](https://www.facebook.com),** open DevTools > Network.
-
-**3) Upload any picture** but don't press "Post".
-
-**4) Look for the "recognition"** endpoint.
-![Network screenshot](https://louison.me/facematch/network.png)
-
-**5) "Request"** > copy-paste the entire "cookie" string in config.js
-
-![Cookie screenshot](https://louison.me/facematch/cookie.png)
-
-**6) "Form"** (raw source) > copy-paste everything from "__user=" in config.js (req_params)
-![Req screenshot](https://louison.me/facematch/req.png)
-
-
-##### III) Start the server
-*You can change the http port in config.js* 
-```
-$ node index.js
-```
-
-##### IV) Get your access token
-Navigate to http://localhost:3000/getAccessToken and give access to your Facebook account.
-
-##### V) Recognize people
-POST http://localhost:3000/recognize (accessToken = YOUR_ACCESS_TOKEN, url = YOUR_IMG_URL)
-
-![Screenshot query](https://louison.me/facematch/stephane.png)
-
-##### YAY! Now you can do like Mark and build your intelligent house.
+<h1>How it works:</h1>
+When Alexa receives an intent, she initiates a photo using your front door's security camera.<br />
+The photo is uploaded to a server.<br />
+The server uses Facebook's facial image recognition software to determine if the person is on your friends list, and who the person is.<br />
+If no match is found, the image is sent to CloudSight, where the image is described within 30 seconds by a human.<br />
+Alexa tells you who is at the door.<br />
